@@ -8,11 +8,15 @@ Version.checkRelease = function (resourcename, repo)
     }
     PerformHttpRequest('https://api.github.com/repos/'..repo..'/releases/latest', function(err, text, headers)
         local response = json.decode(text)
-        local latest = {
-            url = response.html_url,
-            body = response.body,
-            version = response.tag_name
-        }
+		if response == nil then
+			latest = current
+		else
+			local latest = {
+				url = response.html_url,
+				body = response.body,
+				version = response.tag_name
+				}
+		end
         local uptodate = false
         local overdate = false
 
